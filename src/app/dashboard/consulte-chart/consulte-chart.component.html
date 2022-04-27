@@ -1,0 +1,31 @@
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-md-4">List of charts
+            <ul class="list-group" *ngIf="listcharts">
+                <li class="list-group-item" *ngFor="let chart of listcharts"   (click)="onGetChartById(chart.id)"            
+                    [ngClass]="currentChartId ==chart.id?'text-warning':''"  >
+                     {{chart.title}}
+                </li>  
+            </ul>
+        </div>
+
+
+        <div class="col-md-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">details of charts</div>
+                
+                <div class="panel-body" >
+              
+                    <div *ngIf="currentType==='line'" echarts [options]="lineChart"></div>
+                    <div *ngIf="currentType==='bar'" echarts [options]="barChart"></div>
+                    <div *ngIf="currentType==='pie'" echarts [options]="pieChart"></div>
+                
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+</div>

@@ -1,0 +1,23 @@
+
+li:hover{
+    cursor: pointer;
+}
+.navbar{
+    background-color:rgb(181, 181, 181);
+   color :red
+   
+}
+
+#sign-out{
+    position: relative;
+    margin-left: 890px;
+    color :brown;
+}
+
+.btn{
+    color: brown;
+}
+span{
+    color:red;
+}
+

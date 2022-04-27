@@ -1,0 +1,15 @@
+#querySql{
+    width: 90%;
+    height: 150px;
+}
+.btn{
+    background-color: rgb(199, 34, 34);
+   color:aliceblue; 
+   margin-left: 85%;
+}
+.container-fluid {
+    margin-left: 150px;
+}
+.container{
+    margin-top: 12px;
+}

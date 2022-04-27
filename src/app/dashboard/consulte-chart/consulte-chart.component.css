@@ -1,0 +1,8 @@
+li:hover{
+    cursor: pointer;
+}
+
+.panel-heading{
+    color:rgb(199, 34, 34);
+    background-color: rgb(234, 227, 227);
+}

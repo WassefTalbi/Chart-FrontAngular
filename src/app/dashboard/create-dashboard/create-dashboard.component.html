@@ -1,0 +1,24 @@
+
+<div class="container-fluid">
+<div  class="panel panel-default">
+<div class="panel panel-heading">Add dashboard</div>
+<div class="panel panel-body">
+    <form #f="ngForm" (ngSubmit)="add_Dashboard(f.value)">
+
+   
+        <div class="form-group">
+            <label for="designation">Title</label>
+            <input class="form-control" type="text" name="title"  ngModel>
+        </div>
+      
+
+        <div class="form-group">
+            <label for="designation">Description</label>
+            <input class="form-control" type="text" name="description"  ngModel>
+        </div>
+        <button type="submit" class="btn btn-ok"> create</button> <button (click)="cancel()" class="btn btn-default"> cancel</button>
+    </form>
+
+</div>
+</div>
+</div>

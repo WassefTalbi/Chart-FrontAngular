@@ -1,0 +1,28 @@
+
+
+<div class="container-fluid">
+    <form #f="ngForm" (ngSubmit)="load_Chart(f.value)">
+
+    <div class="form-group">
+        <label for="querySql">SQL Query</label>
+        <input class="form-control" id="querySql" type="text" name="query" ngModel >
+    </div>
+    <button [disabled]="execute===true" type="submit" class="btn" > Run Query</button>
+</form>
+</div>
+
+<div *ngIf="chartByIdData " class="container">
+
+    <div class="panel panel-default">
+        <div class="panel-heading">details of charts</div>
+        
+        <div class="panel-body" >
+      
+            <div *ngIf="currentType==='line'" echarts [options]="lineChart"></div>
+            <div *ngIf="currentType==='bar'" echarts [options]="barChart"></div>
+            <div *ngIf="currentType==='pie'" echarts [options]="pieChart"></div>
+          
+        
+        </div>
+    </div>
+</div>

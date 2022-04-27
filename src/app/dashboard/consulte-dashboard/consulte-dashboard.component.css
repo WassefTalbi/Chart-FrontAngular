@@ -1,0 +1,17 @@
+.container{
+    margin-top: 45px;;
+}
+.panel-heading{
+    color:rgb(199, 34, 34);
+    background-color: rgb(234, 227, 227);
+}
+.btn-red{
+    color: aliceblue;
+    background-color: rgb(229, 15, 15);
+}
+#btn-edit{
+margin-right:6px;
+}
+.btn{
+    margin-bottom: 10px;
+}

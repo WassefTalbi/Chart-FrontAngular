@@ -1,0 +1,44 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="panel panel-default">
+                <div class="panel-heading">details of charts</div>
+
+                <div class="panel-body">
+
+                    <div *ngIf="currentType==='line'" echarts [options]="lineChart"></div>
+                    <div *ngIf="currentType==='bar'" echarts [options]="barChart"></div>
+                    <div *ngIf="currentType==='pie'" echarts [options]="pieChart"></div>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-4 settings" >
+            <div class="row">
+
+                <div class="panel panel-default" style="margin-top: 12px;">
+
+                    
+                 
+                        Dataset
+                    
+                </div>
+
+           
+            </div>
+            <div class="row">
+            
+            <div class="panel panel-default">
+
+          
+           
+                    Properties
+                
+            </div>
+        </div>
+        </div>
+    </div>
+
+
+</div>
