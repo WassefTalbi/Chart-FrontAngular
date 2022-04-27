@@ -1,10 +1,10 @@
-<div class="container">
+<div class="container"  *ngIf="chartformGroup">
 
     <div  *ngIf="config==false" class="panel panel-default">
 
         <div class="panel panel-heading">Add chart </div>
         <div class="panel panel-body">
-            <form #f="ngForm" (ngSubmit)="add_Chart(f.value)">
+            <form [formGroup]="chartformGroup">
 
                 <div class="form-group">
                     <label for="designation"> Type</label>
@@ -15,24 +15,32 @@
             </div>
                 <div class="form-group">
                     <label for="designation">Title</label>
-                    <input class="form-control" type="text" name="title"  ngModel>
+                    <input class="form-control" type="text" name="title"   formControlName="title" 
+                     [ngClass]="{'is-invalid':submited && chartformGroup.controls['title'].errors}" >
+                    <div *ngIf="submited && chartformGroup.controls['title'].errors" class="invalid-feedback" class="alert alert-danger">
+                        <div *ngIf="chartformGroup.controls['title'].errors['required']" class="invalid-feedback">Title is Required </div>
+                    </div>
                 </div>
               
 
                 <div class="form-group">
                     <label for="designation">Description</label>
-                    <input class="form-control" type="text" name="description"  ngModel>
+                    <input class="form-control" type="text" name="description"  formControlName="description" 
+                      [ngClass]="{'is-invalid':submited && chartformGroup.controls['description'].errors}" >
+                    <div *ngIf="submited && chartformGroup.controls['description'].errors" class="invalid-feedback" class="alert alert-danger">
+                        <div *ngIf="chartformGroup.controls['description'].errors['required']" class="invalid-feedback">Description is Required </div>
+                    </div>
                 </div>
-                <button type="submit" class="btn btn-ok"> create</button> <button (click)="cancel()" class="btn btn-default"> cancel</button>
+                <button type="submit" class="btn btn-ok" (click)="add_Chart()"> create</button> <button (click)="cancel()" class="btn btn-default"> cancel</button>
             </form>
         </div>
     </div>
 
     <div  *ngIf="config" class="panel panel-default">
 
-        <div class="panel panel-heading">Set Up a Database connection <i class="fa fa-database" ></i></div>
-        <div class="panel panel-body">
-            <form #f="ngForm" (ngSubmit)="setUpDatabase(f.value)">
+        <div class="panel panel-heading" >Set Up a Database connection <i class="fa fa-database" ></i></div>
+        <div class="panel panel-body"*ngIf="setDataBaseformGroup">
+            <form [formGroup]="setDataBaseformGroup">
 
                 <div class="form-group">
                     <label for="designation"> Database </label>
@@ -43,19 +51,31 @@
             </div>
                 <div class="form-group">
                     <label for="Hostname">Hostname</label>
-                    <input class="form-control" type="text" name="url" required ngModel>
+                    <input class="form-control" type="text" name="url" formControlName="url" 
+                    [ngClass]="{'is-invalid':submitted && setDataBaseformGroup.controls['url'].errors}" >
+                    <div *ngIf="submitted && setDataBaseformGroup.controls['url'].errors" class="invalid-feedback" class="alert alert-danger">
+                        <div *ngIf="setDataBaseformGroup.controls['url'].errors['required']" class="invalid-feedback">Hostname is Required </div>
+                    </div>
                 </div>
               
 
                 <div class="form-group">
                     <label for="Username">Username</label>
-                    <input class="form-control" type="text" name="username" required ngModel>
+                    <input class="form-control" type="text" name="username" formControlName="username" 
+                    [ngClass]="{'is-invalid':submitted && setDataBaseformGroup.controls['username'].errors}" >
+                    <div *ngIf="submitted && setDataBaseformGroup.controls['username'].errors" class="invalid-feedback" class="alert alert-danger">
+                        <div *ngIf="setDataBaseformGroup.controls['username'].errors['required']" class="invalid-feedback">Username is Required </div>
+                    </div>
                 </div>
                 <div class="form-group">
                     <label for="Password">Password</label>
-                    <input class="form-control" type="password" name="password" required ngModel>
+                    <input class="form-control" type="password" name="password" formControlName="password" 
+                    [ngClass]="{'is-invalid':submitted && setDataBaseformGroup.controls['password'].errors}" >
+                    <div *ngIf="submitted && setDataBaseformGroup.controls['password'].errors" class="invalid-feedback" class="alert alert-danger">
+                        <div *ngIf="setDataBaseformGroup.controls['password'].errors['required']" class="invalid-feedback">Password is Required </div>
+                    </div>
                 </div>
-                <button type="submit" class="btn btn-ok"> Apply</button>   
+                <button type="submit" class="btn btn-ok" (click)="setUpDatabase()"> Apply</button>  <button (click)="cancell()" class="btn btn-default"> cancel</button> 
             </form>
         </div>
     </div>

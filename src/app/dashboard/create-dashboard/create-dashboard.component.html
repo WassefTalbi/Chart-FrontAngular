@@ -1,22 +1,30 @@
 
-<div class="container-fluid">
+<div class="container-fluid" *ngIf="dashboardformGroup">
 <div  class="panel panel-default">
 <div class="panel panel-heading">Add dashboard</div>
 <div class="panel panel-body">
-    <form #f="ngForm" (ngSubmit)="add_Dashboard(f.value)">
+    <form  [formGroup]="dashboardformGroup" >
 
    
         <div class="form-group">
             <label for="designation">Title</label>
-            <input class="form-control" type="text" name="title"  ngModel>
+            <input class="form-control" type="text" name="title"  formControlName="title" 
+            [ngClass]="{'is-invalid':submited && dashboardformGroup.controls['title'].errors}" >
+            <div *ngIf="submited && dashboardformGroup.controls['title'].errors" class="invalid-feedback" class="alert alert-danger">
+                <div *ngIf="dashboardformGroup.controls['title'].errors['required']" class="invalid-feedback">Title is Required </div>
+            </div>
         </div>
       
 
         <div class="form-group">
             <label for="designation">Description</label>
-            <input class="form-control" type="text" name="description"  ngModel>
+            <input class="form-control" type="text" name="description" formControlName="description"  
+            [ngClass]="{'is-invalid':submited && dashboardformGroup.controls['description'].errors}" >
+            <div *ngIf="submited && dashboardformGroup.controls['description'].errors" class="invalid-feedback" class="alert alert-danger">
+                <div *ngIf="dashboardformGroup.controls['description'].errors['required']" class="invalid-feedback">description is Required </div>
+            </div>
         </div>
-        <button type="submit" class="btn btn-ok"> create</button> <button (click)="cancel()" class="btn btn-default"> cancel</button>
+        <button type="submit" class="btn btn-ok" (click)="add_Dashboard()"> create</button> <button (click)="cancel()" class="btn btn-default"> cancel</button>
     </form>
 
 </div>

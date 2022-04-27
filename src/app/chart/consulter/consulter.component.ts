@@ -184,7 +184,6 @@ this.chartservice.getChartDatasets(this.currentURLDataset)
       });
   }
 
- 
   onGetChartLabels() {
     this.chartservice.getChartLabels(this.currentURLLabel)
       .subscribe(data => {
@@ -203,7 +202,6 @@ this.chartservice.getChartDatasets(this.currentURLDataset)
       });
   }
 
- 
 
   drawChart() {
   

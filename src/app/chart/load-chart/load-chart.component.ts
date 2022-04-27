@@ -85,7 +85,7 @@ this.onGetChartById()
         this.currentType = this.chartByIdData.type;
         this.currentTitle = this.chartByIdData.title
         this.currentURLDataset = this.chartByIdData._links.datasets.href;
-        this.currentURLLabel = this.chartByIdData._links.labels.href;
+        this.currentURLLabel = this.chartByIdData._links.labels.href; 
 
 
         this.onGetChartDatasets();

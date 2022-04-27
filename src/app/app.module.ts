@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { ConsulterComponent } from './chart/consulter/consulter.component';
 import { CreateComponent } from './chart/create/create.component';
 import { ConfigDatabaseComponent } from './chart/config-database/config-database.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ConsulteDashboardComponent } from './dashboard/consulte-dashboard/consulte-dashboard.component';
 import { CreateDashboardComponent } from './dashboard/create-dashboard/create-dashboard.component';
 import { ConsulteChartComponent } from './dashboard/consulte-chart/consulte-chart.component';
@@ -34,7 +34,8 @@ import { ParameterChartComponent } from './chart/parameter-chart/parameter-chart
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts'),
     }),
-    HttpClientModule
+    HttpClientModule,
+    ReactiveFormsModule
  
     
   ],

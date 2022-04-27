@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChartService } from 'src/app/chart.service';
 @Component({
@@ -8,9 +9,19 @@ import { ChartService } from 'src/app/chart.service';
 })
 export class EditDashboardComponent implements OnInit {
   public currentDashboard: any;
-  constructor(public chartservice: ChartService, private router: Router, private activated: ActivatedRoute) { }
+  dashboardEditformGroup?: FormGroup;
+  submited: boolean = false;
+  constructor(public chartservice: ChartService, private router: Router, 
+    private activated: ActivatedRoute, private fb: FormBuilder) { }
 
   ngOnInit(): void {
+
+
+    this.dashboardEditformGroup = this.fb.group({
+      title: ["", Validators.required],
+      description: ["", Validators.required]
+    });
+
     //@ts-ignore
     this.chartservice.getDashboardTOModifier(this.activated.snapshot.params.id).subscribe(
       data => {
@@ -21,11 +32,13 @@ export class EditDashboardComponent implements OnInit {
       }
     );
   }
-  updateDashboard(form: any) {
+  updateDashboard() {
+    this.submited = true;
+    if (this.dashboardEditformGroup?.invalid) return;
     //@ts-ignore
-    this.chartservice.updateDashboard(this.activated.snapshot.params.id, form).subscribe(
+    this.chartservice.updateDashboard(this.activated.snapshot.params.id, this.setDataBaseformGroup?.value).subscribe(
       data => {
-        console.log(form);
+       
         alert("update effectue avec succés");
         this.router.navigateByUrl("/consulterDashboard");
       }, err => {

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChartService } from 'src/app/chart.service';
 @Component({
@@ -9,13 +10,30 @@ import { ChartService } from 'src/app/chart.service';
 export class CreateComponent implements OnInit {
 
 
-
+  chartformGroup?: FormGroup;
+  setDataBaseformGroup?: FormGroup;
+  submited: boolean = false;
+  submitted: boolean = false;
 
   public newChartId: any;
   public config: boolean = false;
-  constructor(public chartservice: ChartService, private router: Router, private activated: ActivatedRoute) { }
+  constructor(public chartservice: ChartService, private router: Router,
+    private activated: ActivatedRoute, private fb: FormBuilder) { }
 
   ngOnInit(): void {
+    this.chartformGroup = this.fb.group({
+      title: ["", Validators.required],
+      description: ["", Validators.required]
+
+
+    });
+    this.setDataBaseformGroup = this.fb.group({
+      url: ["", Validators.required],
+      username: ["", Validators.required],
+      password: ["", Validators.required]
+
+
+    });
   }
 
 
@@ -25,9 +43,11 @@ export class CreateComponent implements OnInit {
   selectedTypeDatabase = "mysql";
 
 
-  public add_Chart(form: any) {
-    console.log(form);
-    this.chartservice.PostCreatChart(form).
+  public add_Chart() {
+
+    this.submited = true;
+    if (this.chartformGroup?.invalid) return;
+    this.chartservice.PostCreatChart(this.chartformGroup?.value).
       subscribe(data => {
         console.log(data);
         //@ts-ignore
@@ -35,25 +55,24 @@ export class CreateComponent implements OnInit {
         console.log(this.newChartId);
         alert("mise a jour effectue avec succés");
         this.config = true;
-        //this.router.navigateByUrl("/config");
-
       }, err => {
         console.log(err);
       });
   }
 
 
-  public setUpDatabase(form: any) {
+  public setUpDatabase() {
+    this.submitted = true;
+    if (this.setDataBaseformGroup?.invalid) return;
 
-    console.log(form);
-    this.chartservice.PostConfigDataBase(this.newChartId, form)
+    this.chartservice.PostConfigDataBase(this.newChartId, this.setDataBaseformGroup?.value)
       .subscribe(data => {
-      
+
         //@ts-ignore
         console.log(this.newChartId);
         console.log("config succesfully");
         alert("mise a jour effectue avec succés");
-        this.router.navigateByUrl("/chartLoad/"+this.newChartId);
+        this.router.navigateByUrl("/chartLoad/" + this.newChartId);
 
       }, err => {
         console.log(err);
@@ -61,9 +80,22 @@ export class CreateComponent implements OnInit {
   }
 
 
-  cancel(){
+  cancel() {
     this.router.navigateByUrl("/consulterChart");
   }
 
+  cancell() {
+    let conf = confirm("vous etes sure?");
+    if (conf) {
+      this.chartservice.deleteChart(this.newChartId)
+        .subscribe(data => {
+          console.log("delete chart");
+        }
+          , err => {
+            console.log(err);
+          })
+    }
+    this.router.navigateByUrl("/consulterChart");
 
+  }
 }
