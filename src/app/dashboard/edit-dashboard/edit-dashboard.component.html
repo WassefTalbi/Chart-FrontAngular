@@ -16,7 +16,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="prix">Description</label>
+                    <label for="prix">Description</label> 
                     <input class="form-control" type="text" name="description" formControlName="description"  
                     [ngClass]="{'is-invalid':submited && dashboardEditformGroup.controls['description'].errors}" >
                     <div *ngIf="submited && dashboardEditformGroup.controls['description'].errors" class="invalid-feedback" class="alert alert-danger">

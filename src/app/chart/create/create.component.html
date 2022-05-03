@@ -8,8 +8,8 @@
 
                 <div class="form-group">
                     <label for="designation"> Type</label>
-                <select name="type"  class="form-control" [(ngModel)]="selectedType" >
-                    <option *ngFor="let option of options" [value]="option" >{{option}}</option>
+                <select name="type"  class="form-control" formControlName="type" >
+                    <option *ngFor="let option of options" [ngValue]="option" >{{option}}</option>
                 </select>
                 
             </div>
@@ -44,7 +44,7 @@
 
                 <div class="form-group">
                     <label for="designation"> Database </label>
-                <select name="driverClass" class="form-control" [(ngModel)]="selectedTypeDatabase" required>
+                <select name="driverClass" class="form-control" formControlName="driverClass" >
                     <option *ngFor="let option of optionsDatabase" [value]="option" >{{option}}</option>
                 </select>
                 

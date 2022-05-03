@@ -65,7 +65,7 @@ this.onGetChartById()
   
 }, err => {
   console.log(err);
-});
+}); 
 
   }
 

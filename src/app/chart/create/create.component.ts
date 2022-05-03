@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChartService } from 'src/app/chart.service';
 @Component({
@@ -10,7 +10,7 @@ import { ChartService } from 'src/app/chart.service';
 export class CreateComponent implements OnInit {
 
 
-  chartformGroup?: FormGroup;
+ // chartformGroup?: FormGroup;
   setDataBaseformGroup?: FormGroup;
   submited: boolean = false;
   submitted: boolean = false;
@@ -19,15 +19,18 @@ export class CreateComponent implements OnInit {
   public config: boolean = false;
   constructor(public chartservice: ChartService, private router: Router,
     private activated: ActivatedRoute, private fb: FormBuilder) { }
-
-  ngOnInit(): void {
-    this.chartformGroup = this.fb.group({
+    //@ts-ignore
+    chartformGroup:FormGroup = this.fb.group({
+      type:["", [Validators.required]],
       title: ["", Validators.required],
-      description: ["", Validators.required]
+      description:["", Validators.required]
 
 
     });
+  ngOnInit(): void {
+    
     this.setDataBaseformGroup = this.fb.group({
+      driverClass: ["", [Validators.required]],
       url: ["", Validators.required],
       username: ["", Validators.required],
       password: ["", Validators.required]
