@@ -16,9 +16,9 @@ public getCharts(){
   return this.http.get(this.host+"charts")
 }
 
-public getChartById(id:any){
+public getChartById(id:any) :Observable<any>{
   
-  return this.http.get(this.host+"charts/"+id)
+  return this.http.get<any>(this.host+"charts/"+id)
 }
 
 public getChartLabels(label:any){
@@ -45,7 +45,7 @@ public getDashboards(){
   return this.http.get(this.host+"dashboards");
 }
 getChartsofDashboard(idDashboard:any){
-  return this.http.get(this.host+"dashboards/"+idDashboard+"/charts");
+  return this.http.get(this.host+"dash/"+idDashboard);
 }
 
 public PostLoadChart(id:any,data:any){
@@ -69,4 +69,20 @@ public getDashboardTOModifier(id:any){
 public updateDashboard(id:any,data:any){
   return this.http.put(this.host+"dashboards/"+id,data);
 }
+
+public getAllChart(){
+  return this.http.get(this.host+"listChart");
+}
+public editChartTitle(id:any,data:any){
+  return this.http.post(this.host+"charts/"+id,data);
+}
+
+public getChartSpec(id:any){
+  return this.http.get<any>(this.host+"specChart/"+id)
+}
+
+public updateChart(id:any,data:any){
+  return this.http.post(this.host+"updateChart/"+id,data);
+}
+
 }

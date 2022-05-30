@@ -1,30 +1,39 @@
+<div class="container" *ngIf="dashboardView == true">
+  <div class="row" *ngIf="dashboards">
+    <div class="col-md-4" *ngFor="let dashboard of dashboards">
+      <div class="panel">
+        <div class="panel panel-heading">{{ dashboard.title }}</div>
+        <div class="panel-body">
+          <a
+            *ngIf="getAuthority()"
+            class="btn btn-default"
+            id="btn-edit"
+            (click)="onEdit(dashboard.id)"
+            aria-label="Settings"
+          >
+            <i class="fa fa-cog" aria-hidden="true"></i>
+          </a>
 
-
-<div class="container" *ngIf="dashboardView==true">
-
-    <div class="row" *ngIf="dashboards">
-        <div class="col-md-4" *ngFor="let dashboard of dashboards ">
-
-        <div class="panel">
-            <div class="panel panel-heading">{{dashboard.title}}</div>
-            <div class="panel-body">
-                <a class="btn btn-default" id="btn-edit" (click)="onEdit(dashboard.id)" aria-label="Settings">
-                    <i class="fa fa-cog" aria-hidden="true"></i>
-                  </a>
-                  
-                  <a class="btn btn-danger" (click)="onDelete(dashboard.id)" aria-label="Delete">
-                    <i class="fa fa-trash-o" aria-hidden="true"></i>
-                  </a>
-                <img class="card-img-top" src="assets/dashboardimage.png" alt="Card image"
-                    style="width:300px;">
-                    <p class="card-text">{{dashboard.description}}</p>
-                    <a    (click)=" onGetListChart(dashboard.id)"  class="btn btn-red">View Dashboard</a>
-                    
-                    
-            </div>
+          <a
+            class="btn btn-danger"
+            *ngIf="getAuthority()"
+            (click)="onDelete(dashboard.id)"
+            aria-label="Delete"
+          >
+            <i class="fa fa-trash-o" aria-hidden="true"></i>
+          </a>
+          <img
+            class="card-img-top"
+            src="assets/dashboardimage.png"
+            alt="Card image"
+            style="width: 300px"
+          />
+          <p class="card-text">{{ dashboard.description }}</p>
+          <a (click)="onGetListChart(dashboard.id)" class="btn btn-red"
+            >View Dashboard</a
+          >
         </div>
+      </div>
     </div>
-    </div>
+  </div>
 </div>
-
-

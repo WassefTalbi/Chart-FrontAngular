@@ -1,50 +1,50 @@
 <div class="container-fluid">
-
-    <div class="row">
-        <div class="col-md-4">List of charts
-            <ul class="list-group" *ngIf="listcharts">
-                <li class="list-group-item" *ngFor="let chart of listcharts" (click)="onGetChartById(chart.id)"
-                    [ngClass]="currentChartId ==chart.id?'text-warning':''">
-                    <div class="row">
-                        <div class="col-md-5">
-                            {{chart.title}}
-                        </div>
-                        <div class="col-md-3">
-
-                            <a class="btn btn-default btn-margin" id="btn-edit" (click)="onEdit(chart.id)"
-                                aria-label="Settings">
-                                <i class="fa fa-cog" aria-hidden="true"></i>
-                            </a>
-                        </div>
-                        <div class="col-md-3">
-                            <a class="btn btn-danger  " (click)="onDelete(chart.id)" aria-label="Delete">
-                                <i class="fa fa-trash-o" aria-hidden="true"></i>
-                            </a>
-                        </div>
-                    </div>
-
-
-
-                </li>
-            </ul>
-        </div>
-
-
-        <div class="col-md-8">
-            <div class="panel panel-default">
-                <div class="panel-heading">details of charts</div>
-
-                <div class="panel-body">
-
-                    <div *ngIf="currentType==='line'" echarts [options]="lineChart"></div>
-                    <div *ngIf="currentType==='bar'" echarts [options]="barChart"></div>
-                    <div *ngIf="currentType==='pie'" echarts [options]="pieChart"></div>
-
-                </div>
+  <div class="row">
+    <div class="col-md-4">
+      List of charts
+      <ul class="list-group" *ngIf="listcharts">
+        <li
+          class="list-group-item"
+          *ngFor="let chart of listcharts"
+          (click)="onGetChartById(chart.id)"
+          [ngClass]="currentChartId == chart.id ? 'text-warning' : ''"
+        >
+          <div class="row">
+            <div class="col-md-5">
+              {{ chart.title }}
             </div>
-
-        </div>
+            <div class="col-md-3">
+              <a
+                class="btn btn-default btn-margin"
+                id="btn-edit"
+                (click)="onEdit(chart.id)"
+                aria-label="Settings"
+              >
+                <i class="fa fa-cog" aria-hidden="true"></i>
+              </a>
+            </div>
+            <div class="col-md-3">
+              <a
+                class="btn btn-danger"
+                (click)="onDelete(chart.id)"
+                aria-label="Delete"
+              >
+                <i class="fa fa-trash-o" aria-hidden="true"></i>
+              </a>
+            </div>
+          </div>
+        </li>
+      </ul>
     </div>
 
+    <div class="col-md-8">
+      <div class="panel panel-default">
+        <div class="panel-heading">details of charts</div>
 
+        <div class="panel-body">
+          <div echarts [options]="chart"></div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

@@ -1,7 +1,7 @@
-import { NgModule } from '@angular/core';
+import { NgModule,APP_INITIALIZER } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgxEchartsModule } from 'ngx-echarts';
-import{HttpClientModule}from '@angular/common/http';
+import{HttpClientModule,HTTP_INTERCEPTORS }from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ConsulterComponent } from './chart/consulter/consulter.component';
@@ -14,6 +14,16 @@ import { ConsulteChartComponent } from './dashboard/consulte-chart/consulte-char
 import { LoadChartComponent } from './chart/load-chart/load-chart.component';
 import { EditDashboardComponent } from './dashboard/edit-dashboard/edit-dashboard.component';
 import { ParameterChartComponent } from './chart/parameter-chart/parameter-chart.component';
+import { LoginComponent } from './auth/login/login.component';
+
+import { AllChartsComponent } from './chart/all-charts/all-charts.component';
+import { SpecChartComponent } from './chart/spec-chart/spec-chart.component';
+
+import { AuthService } from './auth.service';
+import { JwtInterceptorService } from './jwt-interceptor.service';
+import { UserComponent } from './manage/user/user.component';
+import { UpdateComponent } from './manage/update/update.component';
+import { AddComponent } from './manage/add/add.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,7 +35,16 @@ import { ParameterChartComponent } from './chart/parameter-chart/parameter-chart
     ConsulteChartComponent,
     LoadChartComponent,
     EditDashboardComponent,
-    ParameterChartComponent
+    ParameterChartComponent,
+    LoginComponent,
+
+    AllChartsComponent,
+     SpecChartComponent,
+     UserComponent,
+     UpdateComponent,
+     AddComponent,
+     
+    
   ],
   imports: [
     BrowserModule,
@@ -39,7 +58,9 @@ import { ParameterChartComponent } from './chart/parameter-chart/parameter-chart
  
     
   ],
-  providers: [],
+  providers: [ 
+  { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorService, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

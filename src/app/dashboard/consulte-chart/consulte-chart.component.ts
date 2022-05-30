@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ChartService } from 'src/app/chart.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EChartsOption } from 'echarts';
+import * as echarts from 'echarts';
+import { tap } from 'rxjs';
 @Component({
   selector: 'app-consulte-chart',
   templateUrl: './consulte-chart.component.html',
@@ -14,243 +16,195 @@ export class ConsulteChartComponent implements OnInit {
   public dashboardView: any;
   public listcharts: any;
 
-
-
   public lineChart!: EChartsOption;
   public barChart!: EChartsOption;
-  public pieChart!: EChartsOption;
-  public chartByIdData: any;
-  public currentChartId: any;
-  public chartDatasets: any;
-  public chartLabels: any;
-  public chartDataPoint: any;
-  public currentType: any;
-  public currentTitle: any;
-  public currentURLDataset: any;
-  public currentURLLabel: any;
-  public currentURLDatapoint: any;
-  public tableauChartLabel: any = [];
-  public tableauChartDataset: any = [];
-  public tableauChartDatasetName: any = [];
-  public tableauChartDataPoint: any = [];
-  public currentDatasetLabel: any;
-  public tableOfTestDataPoint: any;
-  currentDatasetLabelhref: any;
-  public pieDatasets:any=[];
+  public pieChart!: EChartsOption
+  public Chartsgraph: EChartsOption[]=[];
+  
 
+ 
+
+
+
+
+
+ public ArrayLabel:any=[]
   constructor(public chartservice: ChartService,private router:Router, private activated:ActivatedRoute) { }
 
   ngOnInit(): void {
 //@ts-ignore
-    this.chartservice.getChartsofDashboard(this.activated.snapshot.params.id)
-    .subscribe(data => {
-      //@ts-ignore
-      this.listcharts = data._embedded.charts;
-      console.log(this.listcharts);
-      this.dashboardView = false;
-    }, err => {
-      console.log(err);
-    });
-  }
+this.chartservice.getChartsofDashboard(this.activated.snapshot.params.id)
+.subscribe(data => {
+  //@ts-ignore
+  this.listcharts = data;
+this.listcharts.forEach((chart:any)=>{
+  let title= chart.title
+  let type=chart.type
+let label=chart.labels
+let datasets=chart.valeurs
+ 
+let tableDataset:any[]=[]
+let seriesn:any[]=[]
+let series:any[]=[]
+datasets.forEach((dataset:any)=>{
+ let namedataset=dataset.name
+ let backgroundColor=dataset.backgroundColor
+ let valeurs=dataset.dataPoints
 
 
 
 
-  onGetChartById(idChart: any) {
-    this.chartservice.getChartById(idChart)
-      .subscribe(data => {
-        this.chartByIdData = data;
-        //@ts-ignore
-        this.currentChartId = idChart;
-        console.log(this.currentChartId);
-        this.currentType = this.chartByIdData.type;
-        this.currentTitle = this.chartByIdData.title
-        this.currentURLDataset = this.chartByIdData._links.datasets.href;
-        this.currentURLLabel = this.chartByIdData._links.labels.href;
-
-
-        this.onGetChartDatasets();
-        this.onGetChartLabels();
-        //this.drawChart();
-      
-
-      }, err => {
-        console.log(err)
-      }
-      );
-  }
-
-  onGetChartDatasets() {
-    this.chartservice.getChartDatasets(this.currentURLDataset)
-      .subscribe(data => {
-        // @ts-ignore
-        this.chartDatasets = data._embedded.chartDatasets;
-        console.log(this.currentURLDataset);
-        let datasetoftest = this.chartDatasets.forEach((dataset: any) => {
-          this.currentDatasetLabel = dataset.label
-          console.log(this.currentDatasetLabel)
-          this.currentDatasetLabelhref = dataset._links.dataPoints.href
-          this.chartservice.getChartDataPoint(this.currentDatasetLabelhref)
-            .subscribe(data => {
-              //@ts-ignore
-              this.chartDataPoint = data._embedded.dataPoints;
-              this.tableOfTestDataPoint = this.chartDataPoint.map((dataPoint: any) => {
-                console.log(dataPoint.valeur);
-                return dataPoint.valeur;
-                
-              });
-              console.log("wassef",this.tableOfTestDataPoint);
-           
-            console.log("wassef",this.tableauChartLabel)
-        
-          for( var i = 0; i < this.tableOfTestDataPoint.length; i++){
-           
-            //@ts-ignore
-            this.pieDatasets.push({ value: this.tableOfTestDataPoint[i], name: this.tableauChartLabel[i] })
-           }
-       
-              console.log(this.tableOfTestDataPoint);
-              this.drawChart();
-              this.pieDatasets=[];
-            },
-              err => {
-                console.log(err);
-              });
-            
-
-        });
-     
-      }, err => {
-        console.log(err);
-      });
-  }
-
-  onGetChartLabels() {
-    this.chartservice.getChartLabels(this.currentURLLabel)
-      .subscribe(data => {
-        //@ts-ignore
-        this.chartLabels = data._embedded.labels;
-       
-
-        this.tableauChartLabel = this.chartLabels.map((c: any) => {
-          return c.descLabel;
-        })
-
-    
-        console.log(this.tableauChartLabel);
-console.log ("draw data now in chart");
-        
-
-
-      }, err => {
-        console.log(err);
-      });
-  }
-
-  drawChart() {
-    console.log("in the draw methode " + this.currentTitle)
-    if (this.currentType === "line") {
-      this.lineChart = {
-        title: {
-          text: this.currentTitle,
-        },
-       
-        toolbox: {
-          feature: {
-            saveAsImage: {}
-          }
-        },
-        grid: {
-          left: '3%',
-          right: '4%',
-          bottom: '3%',
-          containLabel: true
-        },
-        tooltip: {
-        },
-        xAxis: {
-          type: 'category',
-          boundaryGap: false,
-          data: this.tableauChartLabel
-        },
-        yAxis: {
-          type: 'value'
-        },
-        series: [{
-          
-          data: this.tableOfTestDataPoint,
-          type: this.chartByIdData.type,
-          areaStyle: {}
-        }]
-      }
-    }
-    else if (this.currentType === 'bar') {
-
-      this.barChart = {
-        title: {
-          text: this.currentTitle,
-        },
-        
-        toolbox: {
-          feature: {
-            saveAsImage: {}
-          }
-        },
-        
-        tooltip: {
-        },
-        xAxis: {
-          type: 'category',
-          data: this.tableauChartLabel
-        },
-        yAxis: {
-          type: 'value'
-        },
-        series: [{
-         
-          data: this.tableOfTestDataPoint,
-          type: this.chartByIdData.type,
-         
-        }]
-      }
-
-    }
-    else if (this.currentType === 'pie') {
-      this.pieChart = {
-
-        title: {
-          text: 'Referer of a Website',
-          subtext: 'Fake Data',
-          left: 'center'
-        },
-        tooltip: {
-          trigger: 'item'
-        },
-        legend: {
-          orient: 'vertical',
-          left: 'left'
-        },
-        series: [
-          {
-            name: 'Access From',
-            type: 'pie',
-            radius: '50%',
-
-            data: this.pieDatasets,
-            emphasis: {
-              itemStyle: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowColor: 'rgba(0, 0, 0, 0.5)'
-              }
-            }
-          }
-        ]
-      }
-    }
-    
+ if(type==="line"){
+  seriesn=datasets.map((dt:any)=>{
    
+    series.push({name:dt.name,areaStyle:{color:dt.backgroundColor, opacity: 0.8},emphasis:{focus:'series'},label:{show:'true',position:'top'}, stack: 'Total',data:dt.dataPoints,type:type})
+    return series;
+  }); 
+
+}
+
+if(type==="bar"){
+seriesn=datasets.map((dt:any)=>{
+
+  series.push({name:dt.name,itemStyle:{color:dt.backgroundColor, opacity: 0.8},emphasis:{itemStyle:{color:'red'}}, stack: 'Total',data:dt.dataPoints,type:type})
+  return series;
+}); 
+}
+if(type==="pie"){
+  const pieDatasets:any=[];
+  for( var i = 0; i < label.length; i++){
+    
+  //@ts-ignore
+ pieDatasets.push({ value: valeurs[i], name: label[i] })
+
   }
+  console.log('pie dataset '+i,pieDatasets)
+  seriesn=datasets.map((dt:any)=>{
+
+    series.push({name:dt.name,type:type,emphasis:{itemStyle:{ shadowBlur: 10,shadowOffsetX: 0,shadowColor: 'rgba(0, 0, 0, 0.5)'}},data:pieDatasets})
+    return series;
+  }); 
+}
+
+
+
+ 
+   
+    
+
+
+if (type === "line") {
+  
+  this.lineChart = {
+    title: {
+      text: title,
+    },
+
+    toolbox: {
+      feature: {
+        saveAsImage: {}
+      }
+    },
+    grid: {
+      left: '3%',
+      right: '4%',
+      bottom: '3%',
+      containLabel: true
+    },
+    tooltip: {
+      trigger: 'axis',
+      axisPointer: {
+        type: 'cross',
+        label: {
+          backgroundColor: '#6a7985'
+        }
+      }
+    },
+    xAxis: {
+      type: 'category',
+      boundaryGap: false,
+      data: label
+    },
+    yAxis: {
+      type: 'value'
+    },
+    series: series
+  }
+
+  this.Chartsgraph.push(this.lineChart)
+}
+
+  if (type === "bar") {
+    console.log("this bar chart")
+  this.barChart = {
+    title: {
+      text: title,
+    },
+    
+    toolbox: {
+      feature: {
+        saveAsImage: {}
+      }
+    },
+    
+    tooltip: {
+    },
+    xAxis: {
+      type: 'category',
+      data: label
+    },
+    yAxis: {
+      type: 'value'
+    },
+    series: series
+  }
+  this.Chartsgraph.push(this.barChart)
+}
+ if (type === "pie") {
+  console.log("this pie chart")
+ 
+
+  this.pieChart = {
+
+    title: {
+      text: title,
+      subtext: 'Fake Data',
+      left: 'center'
+    },
+    tooltip: {
+      trigger: 'item'
+    },
+    legend: {
+      orient: 'vertical',
+      left: 'left'
+    },
+    series: series
+  }
+  this.Chartsgraph.push(this.pieChart)
+
+
+}
+
+});
+
+});
+console.log(this.lineChart)
+ 
+  this.dashboardView = false;
+
+
+}, err => {
+  console.log(err);
+});
+
+
+console.log("graph",this.Chartsgraph);
+  }
+
+
+
+
+
 
 
 

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChartService } from 'src/app/chart.service';
 import { EChartsOption } from 'echarts';
+import * as echarts from 'echarts';
 
 
 @Component({
@@ -31,6 +32,7 @@ public tableauChartDataPoint: any = [];
 public currentDatasetLabel: any;
 public tableOfTestDataPoint: any;
 currentDatasetLabelhref: any;
+public pieDatasets:any=[];
 
   constructor(public chartservice: ChartService, private router: Router, private activated: ActivatedRoute) { }
 
@@ -63,181 +65,244 @@ currentDatasetLabelhref: any;
   }
 
 
- 
 
+
+  ongetDataset(){
+    const personne={ name:"wassef",lastName:"talbi"}
+    console.log(personne);
+  ;
+  this.chartservice.getChartDatasets(this.currentURLDataset)
+  .subscribe(data=>{
+    //@ts-ignore
+    this.chartDatasets = data._embedded.chartDatasets;
   
-
-  onGetChartById(idChart: any) {
+    this.pieDatasets = this.chartDatasets.forEach((dataset: any) => {
+      this.currentDatasetLabel = dataset.label
+      console.log(this.currentDatasetLabel)
+      this.currentDatasetLabelhref = dataset._links.dataPoints.href
+      this.chartservice.getChartDataPoint(this.currentDatasetLabelhref)
+        .subscribe(data => {
+          //@ts-ignore
+          this.chartDataPoint = data._embedded.dataPoints;
+          this.tableOfTestDataPoint = this.chartDataPoint.map((dataPoint: any) => {
+            console.log(dataPoint.valeur);
+            return dataPoint.valeur;
+  
+          });
+          console.log(this.tableOfTestDataPoint);
+          //this.drawChart();
+  
+        },
+          err => {
+            console.log(err);
+          });
+  
+  
+    });
+  
+  },err=>{
+    console.log(err);
+  })
   
   }
-
-  onGetChartDatasets() {
-    this.chartservice.getChartDatasets(this.currentURLDataset)
-      .subscribe(data => {
-        // @ts-ignore
-        this.chartDatasets = data._embedded.chartDatasets;
-        console.log(this.currentURLDataset);
-        let datasetoftest = this.chartDatasets.forEach((dataset: any) => {
-          this.currentDatasetLabel = dataset.label
-          console.log(this.currentDatasetLabel)
-          this.currentDatasetLabelhref = dataset._links.dataPoints.href
-          this.chartservice.getChartDataPoint(this.currentDatasetLabelhref)
-            .subscribe(data => {
-              //@ts-ignore
-              this.chartDataPoint = data._embedded.dataPoints;
-              this.tableOfTestDataPoint = this.chartDataPoint.map((dataPoint: any) => {
-                console.log(dataPoint.valeur);
-                return dataPoint.valeur;
+  
+    onGetChartDatasets() {
+      this.chartservice.getChartDatasets(this.currentURLDataset)
+        .subscribe(data => {
+          // @ts-ignore
+          this.chartDatasets = data._embedded.chartDatasets;
+          console.log(this.currentURLDataset);
+          let datasetoftest = this.chartDatasets.forEach((dataset: any) => {
+            this.currentDatasetLabel = dataset.label
+           
+            this.currentDatasetLabelhref = dataset._links.dataPoints.href
+            this.chartservice.getChartDataPoint(this.currentDatasetLabelhref)
+              .subscribe(data => {
+                //@ts-ignore
+                this.chartDataPoint = data._embedded.dataPoints;
+                this.tableOfTestDataPoint = this.chartDataPoint.map((dataPoint: any) => {
+               
+             
+                  return dataPoint.valeur;
+  
+                });
+               
                 
-              });
-              console.log(this.tableOfTestDataPoint);
-              this.drawChart();
-
-            },
-              err => {
-                console.log(err);
-              });
-            
-
-        });
-     
-      }, err => {
-        console.log(err);
-      });
-  }
-
-  onGetChartLabels() {
-    this.chartservice.getChartLabels(this.currentURLLabel)
-      .subscribe(data => {
-        //@ts-ignore
-        this.chartLabels = data._embedded.labels;
-       
-
-        this.tableauChartLabel = this.chartLabels.map((c: any) => {
-          return c.descLabel;
-        })
-
-    
-        console.log(this.tableauChartLabel);
-console.log ("draw data now in chart");
-        
-
-
-      }, err => {
-        console.log(err);
-      });
-  }
-
-  drawChart() {
-    console.log("in the draw methode " + this.currentTitle)
-    if (this.currentType === "line") {
-      this.lineChart = {
-        title: {
-          text: this.currentTitle,
-        },
-       
-        toolbox: {
-          feature: {
-            saveAsImage: {}
-          }
-        },
-        grid: {
-          left: '3%',
-          right: '4%',
-          bottom: '3%',
-          containLabel: true
-        },
-        tooltip: {
-        },
-        xAxis: {
-          type: 'category',
-          boundaryGap: false,
-          data: this.tableauChartLabel
-        },
-        yAxis: {
-          type: 'value'
-        },
-        series: [{
+              
+  
+           
+              console.log("wassef",this.tableOfTestDataPoint);
+             
+              console.log("wassef",this.tableauChartLabel)
           
-          data: this.tableOfTestDataPoint,
-          type: this.chartByIdData.type,
-          areaStyle: {}
-        }]
-      }
-    }
-    else if (this.currentType === 'bar') {
-
-      this.barChart = {
-        title: {
-          text: this.currentTitle,
-        },
-        
-        toolbox: {
-          feature: {
-            saveAsImage: {}
-          }
-        },
-        
-        tooltip: {
-        },
-        xAxis: {
-          type: 'category',
-          data: this.tableauChartLabel
-        },
-        yAxis: {
-          type: 'value'
-        },
-        series: [{
+            for( var i = 0; i < this.tableOfTestDataPoint.length; i++){
+             
+              //@ts-ignore
+              this.pieDatasets.push({ value: this.tableOfTestDataPoint[i], name: this.tableauChartLabel[i] })
+             }
          
-          data: this.tableOfTestDataPoint,
-          type: this.chartByIdData.type,
-         
-        }]
-      }
-
+                console.log(this.tableOfTestDataPoint);
+                this.drawChart();
+                this.pieDatasets=[];
+              },
+                err => {
+                  console.log(err);
+                });
+  
+  
+          });
+  
+        }, err => {
+          console.log(err);
+        });
     }
-    else if(this.currentType==='pie'){
-      this.pieChart= {
-
-        title: {
-          text: 'Referer of a Website',
-          subtext: 'Fake Data',
-          left: 'center'
-        },
-        tooltip: {
-          trigger: 'item'
-        },
-        legend: {
-          orient: 'vertical',
-          left: 'left'
-        },
-        series: [
-          {
-            name: 'Access From',
-            type: 'pie',
-            radius: '50%',
-            data: [
-              { value: 1048, name: 'Search Engine' },
-              { value: 735, name: 'Direct' },
-              { value: 580, name: 'Email' },
-              { value: 484, name: 'Union Ads' },
-              { value: 300, name: 'Video Ads' }
-            ],
-            emphasis: {
-              itemStyle: {
-                shadowBlur: 10,
-                shadowOffsetX: 0,
-                shadowColor: 'rgba(0, 0, 0, 0.5)'
+  
+    onGetChartLabels() {
+      this.chartservice.getChartLabels(this.currentURLLabel)
+        .subscribe(data => {
+          //@ts-ignore
+          this.chartLabels = data._embedded.labels;
+  
+  
+          this.tableauChartLabel = this.chartLabels.map((c: any) => {
+            return c.descLabel;
+          })
+     
+         
+  
+        }, err => {
+          console.log(err);
+        });
+    }
+  
+    drawChart() {
+  
+      if (this.currentType === "line") {
+        this.lineChart = {
+          title: {
+            text: this.currentTitle,
+          },
+  
+          toolbox: {
+            feature: {
+              saveAsImage: {}
+            }
+          },
+          grid: {
+            left: '3%',
+            right: '4%',
+            bottom: '3%',
+            containLabel: true
+          },
+          tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+              type: 'cross',
+              label: {
+                backgroundColor: '#6a7985'
               }
             }
-          }
+          },
+          xAxis: {
+            type: 'category',
+            boundaryGap: false,
+            data: this.tableauChartLabel
+          },
+          yAxis: {
+            type: 'value'
+          },
+          series: [{
+            stack: 'Total',
+            areaStyle: {
+              opacity: 0.8,
+              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                {
+                  offset: 0,
+                  color: 'rgb(55, 162, 255)'
+                },
+                {
+                  offset: 1,
+                  color: 'rgb(116, 21, 219)'
+                }
+              ])
+            },
+            emphasis: {
+              focus: 'series'
+            },
+            data: this.tableOfTestDataPoint,
+            type: this.chartByIdData.type,
+          
+          },
+          
         ]
+        }
       }
+      else if (this.currentType === 'bar') {
+  
+        this.barChart = {
+          title: {
+            text: this.currentTitle,
+          },
+  
+          toolbox: {
+            feature: {
+              saveAsImage: {}
+            }
+          },
+  
+          tooltip: {
+          },
+          xAxis: {
+            type: 'category',
+            data: this.tableauChartLabel
+          },
+          yAxis: {
+            type: 'value'
+          },
+          series: [{
+  
+            data: this.tableOfTestDataPoint,
+            type: this.chartByIdData.type,
+  
+          }]
+        }
+  
+      }
+      else if (this.currentType === 'pie') {
+        this.pieChart = {
+  
+          title: {
+            text: this.currentTitle,
+           
+            left: 'center'
+          },
+          tooltip: {
+            trigger: 'item'
+          },
+          legend: {
+            orient: 'vertical',
+            left: 'left'
+          },
+          series: [
+            {
+              name: 'Access From',
+              type: 'pie',
+              radius: '50%',
+  
+              data: this.pieDatasets,
+              emphasis: {
+                itemStyle: {
+                  shadowBlur: 10,
+                  shadowOffsetX: 0,
+                  shadowColor: 'rgba(0, 0, 0, 0.5)'
+                }
+              }
+            }
+          ]
+        }
+      }
+     
     }
-    console.log("this is chart title");
-    console.log(this.currentTitle);
-  }
-
 
 
 

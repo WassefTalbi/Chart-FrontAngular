@@ -6,3 +6,6 @@ li:hover{
     color:rgb(199, 34, 34);
     background-color: rgb(234, 227, 227);
 }
+.card-space{
+    margin-left: 17px;
+} 

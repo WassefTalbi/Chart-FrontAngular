@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { EChartsOption } from 'echarts';
 import { ChartService } from 'src/app/chart.service';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/auth.service';
 
 @Component({
   selector: 'app-consulte-dashboard',
@@ -36,8 +37,8 @@ export class ConsulteDashboardComponent implements OnInit {
   public tableOfTestDataPoint: any;
   currentDatasetLabelhref: any;
 
-  constructor(public chartservice: ChartService, private router:Router) { }
-
+  constructor(public chartservice: ChartService, private router:Router,public auth:AuthService) { }
+  isAdmin:any=false
   ngOnInit(): void {
 
     this.ongetDashboards();
@@ -64,7 +65,20 @@ public ongetDashboards() {
       });
   }
 
+  getAuthority(){
 
+    if(  localStorage.getItem('token')!==null){
+      let tt:any=  localStorage.getItem('token')
+         let tableRole= JSON.parse(atob(tt.split('.')[1])).roles //to get the roles table from token
+           for(var i=0;i<tableRole.length;i++){
+           if(tableRole[i].authority==='ROLE_ADMIN')  {
+             this.isAdmin=true;
+             break;
+           }    
+           }  
+       }
+       return this.isAdmin
+  }
 
   onEdit(id:any){
     this.router.navigateByUrl("/editDashboard/"+id);

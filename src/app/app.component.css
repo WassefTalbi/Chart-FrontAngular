@@ -2,25 +2,18 @@
 li:hover{
     cursor: pointer;
 }
-.navbar{
-    background-color:rgb(181, 181, 181);
-   color :red
+.logo{
+    margin-top: 3px; margin-left: 3px
+}
+.login{
+    margin-left : 60px;
+}
+#sign-out{
+    color:red;
    
 }
-
-#sign-out{
-    position: relative;
-    margin-left: 890px;
-    color :brown;
-}
-
-.btn{
-    color: brown;
-}
-span{
-    color:red;
-}
-
-.contient{
-    background-color: #ededed;
+.navbar{
+    padding: 12px;
+    border: 1px rgb(234, 223, 223) solid;
+    
 }

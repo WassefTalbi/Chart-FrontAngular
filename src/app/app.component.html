@@ -1,57 +1,79 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Linedata Dashboard</title>
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Linedata Dashboard</title>
-</head>
+  <body>
+    <nav
+      class="navbar"
+      style="background-color: rgb(255, 252, 252)"
+      *ngIf="tokenExist()"
+    >
+      <a class="navbar-brand" href="consulterDashboard" class="logo">
+        <img
+          src="assets/LN.png"
+          width="144px"
+          height="37px"
+          alt="Linedata_logo"
+        />
+      </a>
+      <ul class="nav navbar-nav" style="margin-top: 4px; padding-left: 30px">
+        <li *ngIf="getAdmin() === true">
+          <div class="dropdown">
+            <button
+              class="btn btn-default dropdown-toggle"
+              type="button"
+              id="dropdownMenu1"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="true"
+            >
+              Chart
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+              <li><a routerLink="/createChart">Create chart</a></li>
+              <li role="separator" class="divider"></li>
+              <li><a routerLink="/consulterChart">Chart view</a></li>
+            </ul>
+          </div>
+        </li>
 
-<body>
-  <nav class="navbar navbar-inverse">
-    <div class="container-fluid">
-      <div class="navbar-header">
-        <a class="navbar-brand" href="#"> <span class="linedata">Linedata</span> </a>
-      </div>
-      <ul class="nav navbar-nav">
+        <li style="margin-top: 6px; margin-left: 6px">
+          <div class="dropdown">
+            <button
+              class="btn btn-default dropdown-toggle"
+              type="button"
+              id="dropdownMenu1"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="true"
+            >
+              Dashboard
+              <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+              <li *ngIf="isAdmin === true">
+                <a routerLink="/createDashboard">Create Dashboard</a>
+              </li>
+              <li role="separator" class="divider"></li>
+              <li><a routerLink="/consulterDashboard">Dashboard view</a></li>
+            </ul>
+          </div>
+        </li>
 
-<li style="margin-top: 6px; margin-left: 5px;">
-        <div class="dropdown">
-          <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-            Chart
-            <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-            <li><a routerLink="/createChart">Create chart</a></li>
-            <li role="separator" class="divider"></li>
-            <li ><a  routerLink="/consulterChart">Chart view</a></li>
-          </ul>
-        </div>
-      </li>
-       
-      <li style="margin-top: 6px;margin-left: 6px;">
-        <div class="dropdown">
-          <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-            Dashboard
-            <span class="caret"></span>
-          </button>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-            <li><a routerLink="/createDashboard">Create Dashboard</a></li>
-            <li role="separator" class="divider"></li>
-            <li ><a  routerLink="/consulterDashboard">Dashboard view</a></li>
-          </ul>
-        </div>
-      </li>
-        
-        <li ><a id="sign-out" > Sign out   </a></li> 
+        <li class="login">
+          <a id="sign-out" (click)="logOut()"> Sign out </a>
+        </li>
       </ul>
+    </nav>
+
+    <div class="contient">
+      <router-outlet></router-outlet>
     </div>
-  </nav>
-
-<div class="contient">
-  <router-outlet></router-outlet>
-</div>
-</body>
-
+  </body>
 </html>

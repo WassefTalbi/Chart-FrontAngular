@@ -1,0 +1,56 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-8">
+      <div class="panel-default">
+        <div class="panel-body">
+          <div echarts [options]="chart"></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="panel panel-default">
+        <div class="panel panel-heading">Options Chart</div>
+        <div class="panel panel-body">
+          <form #f="ngForm" (ngSubmit)="modifierChart(f.value)">
+            <div class="form-group">
+              <label for="title">Title</label>
+              <input class="form-control" type="text" name="title" ngModel />
+            </div>
+
+            <div *ngFor="let p of tableID_Dataset; let i = index">
+              <h4>dataset : {{ i + 1 }}</h4>
+              <hr />
+              <div>
+                <div class="form-group hidden">
+                  <label for="dataset ID"> ID dataset</label>
+                  <input
+                    class="form-control"
+                    type="text"
+                    name="id_dataset"
+                    [ngModel]="p"
+                    ngModel
+                  />
+                </div>
+                <div class="form-group">
+                  <label for="prix"> Dataset name</label>
+                  <input class="form-control" type="text" name="name" ngModel />
+                </div>
+                <div class="form-group">
+                  <label for="backgroundColor"> Trace Color</label>
+                  <input
+                    class="form-control"
+                    type="text"
+                    name="backgroundColor"
+                    ngModel
+                  />
+                </div>
+              </div>
+            </div>
+            <hr />
+            <button type="submit" class="btn btn-success">Apply</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
