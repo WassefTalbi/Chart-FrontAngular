@@ -1,19 +1,65 @@
 
+
+*{
+    box-sizing:border-box;
+}
+.contient{
+    background-color: #eee;
+    width: 90%;
+    height: 100%;
+}
+
 li:hover{
     cursor: pointer;
 }
-.logo{
-    margin-top: 3px; margin-left: 3px
-}
-.login{
-    margin-left : 60px;
-}
-#sign-out{
-    color:red;
+
+
+.signout #sign-out{
+    color: red;
+text-align: right;
+
+padding-right: 3px;
    
 }
-.navbar{
-    padding: 12px;
-    border: 1px rgb(234, 223, 223) solid;
+.navbar {
+  
+    border: 1px rgb(14, 13, 13) solid;
+    box-shadow: 1px 7px rgb(234, 100, 100);
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    align-items: center;
+    flex-direction: row;
     
+    
+}
+.navbar div{
+    width: calc(96%/3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo img{width:40%;
+    height:30%;
+}
+.chartAndDash{
+
+    display: flex;
+    direction: row;
+    width:calc(100%/2);
+    align-items: center;
+    justify-content: space-between;
+}
+
+#sign-out:hover{
+    text-align: left;
+   
+    cursor: pointer;
+}
+.chart button{
+    color: red;
+}
+.dash button{
+    color: red;
 }
