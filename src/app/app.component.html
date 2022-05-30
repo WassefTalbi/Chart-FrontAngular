@@ -8,71 +8,60 @@
   </head>
 
   <body>
-    <nav
-      class="navbar"
-      style="background-color: rgb(255, 252, 252)"
-      *ngIf="tokenExist()"
-    >
-      <a class="navbar-brand" href="consulterDashboard" class="logo">
-        <img
-          src="assets/LN.png"
-          width="144px"
-          height="37px"
-          alt="Linedata_logo"
-        />
-      </a>
-      <ul class="nav navbar-nav" style="margin-top: 4px; padding-left: 30px">
-        <li *ngIf="getAdmin() === true">
-          <div class="dropdown">
-            <button
-              class="btn btn-default dropdown-toggle"
-              type="button"
-              id="dropdownMenu1"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="true"
-            >
-              Chart
-              <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-              <li><a routerLink="/createChart">Create chart</a></li>
-              <li role="separator" class="divider"></li>
-              <li><a routerLink="/consulterChart">Chart view</a></li>
-            </ul>
-          </div>
-        </li>
+    <div class="navbar" *ngIf="tokenExist()">
+      <div class="logo">
+        <a href="consulterDashboard">
+          <img src="assets/LN.png" alt="Linedata_logo" />
+        </a>
+      </div>
+      <div class="chartAndDash">
+        <div class="dropdown chart" *ngIf="getAdmin() === true">
+          <button
+            class="btn btn-default dropdown-toggle"
+            type="button"
+            id="dropdownMenu1"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="true"
+          >
+            Chart
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            <li><a routerLink="/createChart">Create chart</a></li>
+            <li role="separator" class="divider"></li>
+            <li><a routerLink="/consulterChart">Chart view</a></li>
+          </ul>
+        </div>
 
-        <li style="margin-top: 6px; margin-left: 6px">
-          <div class="dropdown">
-            <button
-              class="btn btn-default dropdown-toggle"
-              type="button"
-              id="dropdownMenu1"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="true"
-            >
-              Dashboard
-              <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-              <li *ngIf="isAdmin === true">
-                <a routerLink="/createDashboard">Create Dashboard</a>
-              </li>
-              <li role="separator" class="divider"></li>
-              <li><a routerLink="/consulterDashboard">Dashboard view</a></li>
-            </ul>
-          </div>
-        </li>
+        <div class="dropdown dash">
+          <button
+            class="btn btn-default dropdown-toggle"
+            type="button"
+            id="dropdownMenu1"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="true"
+          >
+            Dashboard
+            <span class="caret"></span>
+          </button>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+            <li *ngIf="isAdmin === true">
+              <a routerLink="/createDashboard">Create Dashboard</a>
+            </li>
+            <li role="separator" class="divider"></li>
+            <li><a routerLink="/consulterDashboard">Dashboard view</a></li>
+          </ul>
+        </div>
+      </div>
 
-        <li class="login">
-          <a id="sign-out" (click)="logOut()"> Sign out </a>
-        </li>
-      </ul>
-    </nav>
+      <div class="signout">
+        <a id="sign-out" (click)="logOut()"> Sign out </a>
+      </div>
+    </div>
 
-    <div class="contient">
+    <div class="container-fluid contient">
       <router-outlet></router-outlet>
     </div>
   </body>
